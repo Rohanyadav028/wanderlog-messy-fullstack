@@ -9,6 +9,16 @@ function fetchTrips() {
   });
 }
 
+// slightly ad-hoc helper for random trip
+function getRandomTrip() {
+  return fetch(apiBaseUrl + "/trip/random").then(function (res) {
+    if (!res.ok) {
+      throw new Error("no random trip available yet");
+    }
+    return res.json();
+  });
+}
+
 const TripUI = {
   rootEl: document.getElementById("trip-list"),
 
@@ -137,9 +147,27 @@ function setupRefreshButton() {
   });
 }
 
+function wireRandomButton() {
+  const randomButton = document.querySelector("#random-btn");
+  if (!randomButton) return;
+
+  randomButton.onclick = function () {
+    getRandomTrip()
+      .then(function (trip) {
+        // quick way: temporarily render just this one item
+        TripUI.render({ items: [trip] });
+      })
+      .catch(function (err) {
+        console.warn(err);
+        alert("No trips to surprise you with yet.");
+      });
+  };
+}
+
 document.addEventListener("DOMContentLoaded", function onDomReady() {
   setupFormHandlers();
   setupRefreshButton();
+  wireRandomButton();
   loadTripsAndRender();
 });
 

@@ -44,6 +44,16 @@ router.post("/trips", (req, res) => {
   res.status(201).json(newTrip);
 });
 
+// slightly oddly-named handler to get any one trip
+router.get("/trip/random", function grabRandomTrip(req, res) {
+  const all = store.getTrips();
+  if (!all || !all.length) {
+    return res.status(404).json({ message: "no trips yet" });
+  }
+  const ix = Math.floor(Math.random() * all.length);
+  res.json(all[ix]);
+});
+
 // exported in a slightly different way than server expects, on purpose
 module.exports = router;
 
