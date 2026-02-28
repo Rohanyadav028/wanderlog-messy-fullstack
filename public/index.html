@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WanderLog — Messy Fullstack Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="top-nav">
+        <div class="brand">
+          <span class="brand-mark">✺</span>
+          <span class="brand-text">WanderLog</span>
+        </div>
+        <nav class="nav-links">
+          <a href="/" class="nav-link nav-link--active">Board</a>
+          <a href="/about" class="nav-link">About</a>
+        </nav>
+      </header>
+
+      <main class="content">
+        <section class="hero">
+          <div>
+            <h1>Collect little travel daydreams.</h1>
+            <p class="hero-sub">
+              A tiny full‑stack demo where the UI feels modern but the codebase is quietly chaotic.
+            </p>
+          </div>
+        </section>
+
+        <section class="layout">
+          <section class="panel panel--form">
+            <h2 class="panel-title">Add a trip idea</h2>
+            <form id="trip-form">
+              <label class="field">
+                <span class="field-label">Title</span>
+                <input id="title" name="title" placeholder="Sunrise in Cappadocia" required />
+              </label>
+              <label class="field">
+                <span class="field-label">Description</span>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="3"
+                  placeholder="Hot air balloons, soft light, and Turkish breakfast."
+                ></textarea>
+              </label>
+              <label class="field">
+                <span class="field-label">Mood</span>
+                <select id="mood" name="mood">
+                  <option value="Calm">Calm</option>
+                  <option value="Playful">Playful</option>
+                  <option value="Adventurous">Adventurous</option>
+                  <option value="Cozy">Cozy</option>
+                  <option value="Unspecified">Unspecified</option>
+                </select>
+              </label>
+              <button type="submit" class="btn-primary">Save trip</button>
+              <p class="form-note">
+                This only lives in memory — refreshing the page will reset your list.
+              </p>
+            </form>
+          </section>
+
+          <section class="panel panel--list">
+            <div class="panel-header">
+              <h2 class="panel-title">Your ideas</h2>
+              <button id="refresh-btn" class="btn-ghost" type="button">Refresh</button>
+            </div>
+            <div id="trip-list" class="trip-grid" aria-live="polite"></div>
+          </section>
+        </section>
+      </main>
+
+      <footer class="page-footer">
+        <span class="muted">Built as a refactoring playground.</span>
+      </footer>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
+
