@@ -15,6 +15,7 @@
         </div>
         <nav class="nav-links">
           <a href="/" class="nav-link nav-link--active">Board</a>
+          <a href="/chat" class="nav-link">Chat</a>
           <a href="/about" class="nav-link">About</a>
         </nav>
       </header>
@@ -66,7 +67,15 @@
           <section class="panel panel--list">
             <div class="panel-header">
               <h2 class="panel-title">Your ideas</h2>
-              <div style="display:flex;gap:6px;">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <select id="mood-filter" class="filter-select" aria-label="Mood filter">
+                  <option value="all">All moods</option>
+                  <option value="Calm">Calm</option>
+                  <option value="Playful">Playful</option>
+                  <option value="Adventurous">Adventurous</option>
+                  <option value="Cozy">Cozy</option>
+                  <option value="Unspecified">Unspecified</option>
+                </select>
                 <button id="refresh-btn" class="btn-ghost" type="button">Refresh</button>
                 <button id="random-btn" class="btn-ghost" type="button">Surprise me</button>
               </div>
@@ -78,6 +87,7 @@
 
       <footer class="page-footer">
         <span class="muted">Built as a refactoring playground.</span>
+        <span id="trip-count" class="footer-stat"></span>
       </footer>
     </div>
 

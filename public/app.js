@@ -19,11 +19,17 @@ function getRandomTrip() {
   });
 }
 
+// filter state - inconsistent naming
+let currentMoodFilter = "all";
+
 const TripUI = {
   rootEl: document.getElementById("trip-list"),
 
   render(tripsPayload) {
-    const items = tripsPayload && tripsPayload.items ? tripsPayload.items : [];
+    let items = tripsPayload && tripsPayload.items ? tripsPayload.items : [];
+    if (currentMoodFilter !== "all") {
+      items = items.filter((t) => (t.mood || "").toLowerCase() === currentMoodFilter.toLowerCase());
+    }
     this.rootEl.innerHTML = "";
     if (!items.length) {
       this.rootEl.innerHTML =
@@ -57,7 +63,7 @@ const TripUI = {
 
       const idTag = document.createElement("span");
       idTag.className = "id-tag";
-      idTag.textContent = "#" + trip.id;
+      idTag.textContent = "#" + trip.id + (trip.createdAt ? " · " + trip.createdAt : "");
 
       meta.appendChild(moodChip);
       meta.appendChild(idTag);
@@ -90,9 +96,16 @@ async function loadTripsAndRender() {
   try {
     const data = await fetchTrips();
     TripUI.render(data);
+    updateFooterCount(data.items ? data.items.length : 0);
   } catch (e) {
     console.error(e);
   }
+}
+
+function updateFooterCount(n) {
+  const el = document.getElementById("trip-count");
+  if (!el) return;
+  el.textContent = n + " trip" + (n !== 1 ? "s" : "") + " saved";
 }
 
 function setupFormHandlers() {
@@ -147,6 +160,27 @@ function setupRefreshButton() {
   });
 }
 
+function setupMoodFilter() {
+  const sel = document.getElementById("mood-filter");
+  if (!sel) return;
+  sel.addEventListener("change", function () {
+    currentMoodFilter = sel.value;
+    fetchTrips()
+      .then((d) => {
+        let items = (d && d.items) ? d.items : [];
+        if (currentMoodFilter !== "all") {
+          items = items.filter((t) => (t.mood || "").toLowerCase() === currentMoodFilter.toLowerCase());
+        }
+        TripUI.render(d);
+        updateFooterCount(items.length);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Could not load trips: " + err.message);
+      });
+  });
+}
+
 function wireRandomButton() {
   const randomButton = document.querySelector("#random-btn");
   if (!randomButton) return;
@@ -167,6 +201,7 @@ function wireRandomButton() {
 document.addEventListener("DOMContentLoaded", function onDomReady() {
   setupFormHandlers();
   setupRefreshButton();
+  setupMoodFilter();
   wireRandomButton();
   loadTripsAndRender();
 });

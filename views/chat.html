@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WanderLog Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="top-nav">
+        <div class="brand">
+          <span class="brand-mark">✺</span>
+          <span class="brand-text">WanderLog</span>
+        </div>
+        <nav class="nav-links">
+          <a href="/" class="nav-link">Board</a>
+          <a href="/chat" class="nav-link nav-link--active">Chat</a>
+          <a href="/about" class="nav-link">About</a>
+        </nav>
+      </header>
+
+      <main class="content">
+        <section class="chat-shell">
+          <div class="chat-header">
+            <div class="chat-title">
+              <div class="chat-avatar" aria-hidden="true">i</div>
+              <div>
+                <div class="chat-name">iMessage-ish Chat</div>
+                <div id="chat-subtitle" class="chat-subtitle">Connecting…</div>
+              </div>
+            </div>
+
+            <form id="profile-form" class="chat-profile" autocomplete="off">
+              <label class="chat-profile-label" for="displayName">Name</label>
+              <input id="displayName" name="displayName" class="chat-profile-input" placeholder="You" maxlength="36" />
+              <button class="btn-ghost" type="submit">Set</button>
+            </form>
+          </div>
+
+          <div id="chat-list" class="chat-list" role="log" aria-live="polite" aria-relevant="additions"></div>
+          <div id="typing-indicator" class="typing-indicator" aria-live="polite"></div>
+
+          <form id="chat-form" class="chat-composer" autocomplete="off">
+            <input
+              id="chat-input"
+              class="chat-input"
+              name="message"
+              placeholder="iMessage"
+              maxlength="2000"
+              aria-label="Message"
+            />
+            <button id="send-btn" class="chat-send" type="submit" aria-label="Send">
+              <span aria-hidden="true">↑</span>
+            </button>
+          </form>
+        </section>
+      </main>
+
+      <footer class="page-footer">
+        <span class="muted">Real-time chat demo (Socket.IO).</span>
+        <span class="footer-stat">Tip: open two tabs to chat.</span>
+      </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/chat.js"></script>
+  </body>
+</html>
+

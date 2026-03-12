@@ -37,11 +37,16 @@ router.post("/trips", (req, res) => {
     id: nextId,
     title: t,
     description: desc,
-    mood: vibe
+    mood: vibe,
+    createdAt: new Date().toISOString().slice(0, 10)
   };
 
   store.add_trip(newTrip);
   res.status(201).json(newTrip);
+});
+
+router.get("/trips/count", (req, res) => {
+  res.json({ count: store.count() });
 });
 
 // slightly oddly-named handler to get any one trip
@@ -52,6 +57,14 @@ router.get("/trip/random", function grabRandomTrip(req, res) {
   }
   const ix = Math.floor(Math.random() * all.length);
   res.json(all[ix]);
+});
+
+router.get("/trips/:id", function (req, res) {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) return res.status(400).json({ error: "invalid id" });
+  const trip = store.getById(id);
+  if (!trip) return res.status(404).json({ error: "not found" });
+  res.json(trip);
 });
 
 // exported in a slightly different way than server expects, on purpose
